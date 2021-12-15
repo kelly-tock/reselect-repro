@@ -1,0 +1,19 @@
+.timelineSquare {
+  border-radius: 4px;
+  border-color: blueviolet;
+  border-width: 2px;
+  border-style: solid;
+  padding: 8px;
+}
+
+.timelineSquareHasPurchase {
+  border-style: dashed;
+  border-color: red;
+  background-color: rgb(255, 117, 117);
+}
+
+.timelineSquareSelected {
+  border-style: dotted;
+  background-color: orchid;
+  border-color: blueviolet;
+}

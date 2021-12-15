@@ -1,0 +1,9 @@
+.timelineList {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+}
+
+.timelineListItem {
+  margin: 8px;
+}
