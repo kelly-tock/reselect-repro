@@ -26,9 +26,11 @@ export const TimelineItemSquare = function TimelineItemSquare({
   // const item = useAppSelector((state) => timelineItemSelector(state, itemId));
 
   // based on using on re-reselect
-  const item = useAppSelector((state: RootState) =>
-    selectTimelineItemSelector(state, itemId)
-  );
+  const item = useAppSelector(function useSelectTimelineItemSelector(
+    state: RootState
+  ) {
+    return selectTimelineItemSelector(state, itemId);
+  });
 
   if (!item) {
     return null;
@@ -59,6 +61,7 @@ export const TimelineItemSquare = function TimelineItemSquare({
       </div>
       <div>startDateTime: {item.startDateTime}</div>
       {item.purchase ? <div>purchaseId: {item.purchase.id}</div> : null}
+      {item.party ? <div>party name: {item.party.firstName}</div> : null}
     </button>
   );
 };

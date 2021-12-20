@@ -3,7 +3,6 @@ import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { TimelineItemSquare } from "./TimelineItemSquare";
 import {
   clearselectedItem,
-  itemsSelector,
   selectedDateTimeSelector,
   selectedItemIdSelector,
   selectItem,
