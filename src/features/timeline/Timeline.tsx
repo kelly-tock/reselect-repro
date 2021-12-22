@@ -11,7 +11,7 @@ import { TimelineItemSquare } from "./TimelineItemSquare";
 import { TimelineItemSquareDetails } from "./TimelineItemSquareDetails";
 import {
   changeDate,
-  clearselectedItem,
+  clearSelectedItem,
   selectedDateTimeSelector,
   selectItem,
 } from "./timelineSlice";
@@ -28,7 +28,7 @@ export function Timeline() {
   );
 
   const handleDeselectSquare = useCallback(
-    () => dispatch(clearselectedItem()),
+    () => dispatch(clearSelectedItem()),
     [dispatch]
   );
 

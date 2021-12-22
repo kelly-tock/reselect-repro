@@ -1,4 +1,5 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
+import counterReducer from '../features/counter/counterSlice';
 import timelineReducer from '../features/timeline/timelineSlice';
 import purchaseReducer from '../features/purchase/purchaseSlice';
 import partyReducer from '../features/party/partySlice';

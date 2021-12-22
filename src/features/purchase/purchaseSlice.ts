@@ -2,7 +2,7 @@ import { createSlice, createSelector, Dictionary } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import faker from 'faker';
 import _ from 'lodash';
-import { changeDate } from '../timeline/timelineSlice';
+import { TimelineActions } from '../timeline/timelineSlice';
 
 export interface Purchase {
   tableId: number;
@@ -29,33 +29,34 @@ const initialItemsArray = generatePurchaseData();
 
 
 export interface PurchaseState {
-  items: Array<Purchase>
+  purchases: Array<Purchase>
 }
 
 export const initialState: PurchaseState = {
-  items: initialItemsArray,
+  purchases: initialItemsArray,
 }
 
-export const purchaseSlice = createSlice({
-  name: 'purchase',
-  initialState, 
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(changeDate, (state, action) => {
-      state.items = generatePurchaseData()
-    })
+export default function purchaseReducer(state = initialState, action: TimelineActions): PurchaseState {
+  const { type } = action;
+
+  switch (type) {
+    case 'timeline/changeDate': {
+      return {
+        ...state,
+        purchases: generatePurchaseData(),
+      };
+    }
+    default:
+      return state;
   }
-});
+}
 
-export const purchasesSelector = (state: RootState) => state.purchase.items;
+export const purchasesSelector = (state: RootState) => state.purchase.purchases;
 
-export const purchasesByIdSelector = createSelector(purchasesSelector, (items: Array<Purchase>) => {
+export const purchasesByIdSelector = createSelector(purchasesSelector, (purchases: Array<Purchase>) => {
   const purchasesMap: Dictionary<Purchase> = {}
-  for (const item of items) {
-    purchasesMap[`${item.id}`] = item
+  for (const purchase of purchases) {
+    purchasesMap[`${purchase.id}`] = purchase
   }
   return purchasesMap;
 })
-
-export default purchaseSlice.reducer;
-

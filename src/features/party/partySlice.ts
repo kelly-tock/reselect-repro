@@ -2,7 +2,7 @@ import { createSlice, createSelector, Dictionary } from '@reduxjs/toolkit';
 import { RootState } from '../../app/store';
 import faker from 'faker';
 import _ from 'lodash';
-import { changeDate } from '../timeline/timelineSlice';
+import { changeDate, TimelineActions } from '../timeline/timelineSlice';
 
 export interface Party {
   tableId: number;
@@ -36,16 +36,20 @@ export const initialState: PartyState = {
   parties: initialPartiesArray,
 }
 
-export const partySlice = createSlice({
-  name: 'parties',
-  initialState, 
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(changeDate, (state, action) => {
-      state.parties = generatePartyData()
-    })
+export default function partyReducer(state = initialState, action: TimelineActions): PartyState {
+  const { type } = action;
+
+  switch (type) {
+    case 'timeline/changeDate': {
+      return {
+        ...state,
+        parties: generatePartyData(),
+      };
+    }
+    default:
+      return state;
   }
-});
+}
 
 export const partiesSelector = (state: RootState) => state.party.parties;
 
@@ -56,6 +60,3 @@ export const partiesByPurchaseIdSelector = createSelector(partiesSelector, (part
   }
   return partyMap;
 })
-
-export default partySlice.reducer;
-

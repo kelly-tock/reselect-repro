@@ -1,4 +1,3 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { add, format } from 'date-fns';
 import faker from 'faker';
 import _ from 'lodash';
@@ -48,29 +47,65 @@ export const initialState: TimelineState = {
   selectedDateTime: format(initialStartDateTime, DATETIMEFORMAT)
 }
 
-export const timelineSlice = createSlice({
-  name: 'timeline',
-  initialState, 
-  reducers: {
-    selectItem: (state, action: PayloadAction<number>) => {
-      state.selectedTimelineItemId = action.payload
-    },
-    clearselectedItem: (state) => {
-      state.selectedTimelineItemId = undefined
-    },
-    changeDate: (state, action: PayloadAction<string>) => {
-      state.selectedDateTime = action.payload;
-      state.items = generateNewDateTimeData(action.payload);
-      state.selectedTimelineItemId = undefined;
-    }
-  }
-});
+interface SelectItemAction {
+  type: 'timeline/selectItem';
+  payload: number;
+}
 
-export const { selectItem, clearselectedItem, changeDate } = timelineSlice.actions;
+interface ClearSelectedItemAction {
+  type: 'timeline/clearSelectedItem';
+}
+
+interface ChangeDateAction {
+  type: 'timeline/changeDate';
+  payload: string;
+}
+
+export const selectItem = (itemId: number): SelectItemAction => ({
+  type: 'timeline/selectItem',
+  payload: itemId
+})
+
+export const clearSelectedItem = (): ClearSelectedItemAction => ({
+  type: 'timeline/clearSelectedItem',
+})
+
+export const changeDate = (dateString: string): ChangeDateAction => ({
+  type: 'timeline/changeDate',
+  payload: dateString
+})
+
+export type TimelineActions = SelectItemAction | ClearSelectedItemAction | ChangeDateAction;
+
+export default function timelineReducer(state = initialState, action: TimelineActions): TimelineState {
+  const { type } = action;
+
+  switch (type) {
+    case 'timeline/selectItem': {
+      return {
+        ...state,
+        selectedTimelineItemId: action.payload
+      };
+    }
+    case 'timeline/clearSelectedItem': {
+      return {
+        ...state,
+        selectedTimelineItemId: undefined,
+      };
+    }
+    case 'timeline/changeDate': {
+      return {
+        ...state,
+        selectedDateTime: action.payload,
+        items: generateNewDateTimeData(action.payload),
+        selectedTimelineItemId: undefined
+      };
+    }
+    default:
+      return state;
+  }
+}
 
 export const itemsSelector = (state: RootState) => state.timeline.items;
 export const selectedItemIdSelector = (state: RootState) => state.timeline.selectedTimelineItemId;
 export const selectedDateTimeSelector = (state: RootState) => state.timeline.selectedDateTime;
-
-export default timelineSlice.reducer;
-
