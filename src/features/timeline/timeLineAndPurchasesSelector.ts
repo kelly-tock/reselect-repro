@@ -29,7 +29,6 @@ export const timelineAndPurchasesByIdSelector = createSelector(timelineAndPurcha
 
 const itemId = (_: RootState, itemId: number) => itemId;
 
-
 // react-redux docs recommended way
 export const makeTimelineItemSelector = () => createSelector(timelineAndPurchasesByIdSelector, itemId, (itemsMap: Dictionary<TimelineItemPurchase>, itemId: number) => {
   return itemsMap[`${itemId}`];

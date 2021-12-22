@@ -1,8 +1,7 @@
-import { createSlice, PayloadAction, createSelector, Dictionary } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { format, add } from 'date-fns';
 import { RootState } from '../../app/store';
 import faker from 'faker';
-import { createCachedSelector } from 're-reselect';
 import _ from 'lodash';
 import { DATETIMEFORMAT } from '../../lib/constants';
 
