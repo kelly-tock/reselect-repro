@@ -1,20 +1,23 @@
+import { add, format } from "date-fns";
 import React, { useCallback } from "react";
-import { useAppSelector, useAppDispatch } from "../../app/hooks";
-import { TimelineItemSquare } from "./TimelineItemSquare";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { DATETIMEFORMAT } from "../../lib/constants";
+import styles from "./Timeline.module.css";
 import {
+  selectedTimelineItemSelector,
+  timelineAndPurchasesSelector,
+} from "./timeLineAndPurchasesSelector";
+import { TimelineItemSquare } from "./TimelineItemSquare";
+import { TimelineItemSquareDetails } from "./TimelineItemSquareDetails";
+import {
+  changeDate,
   clearselectedItem,
   selectedDateTimeSelector,
-  selectedItemIdSelector,
   selectItem,
-  changeDate,
 } from "./timelineSlice";
-import styles from "./Timeline.module.css";
-import { add, format } from "date-fns";
-import { DATETIMEFORMAT } from "../../lib/constants";
-import { timelineAndPurchasesSelector } from "./timeLineAndPurchasesSelector";
 
 export function Timeline() {
-  const selectedItemId = useAppSelector(selectedItemIdSelector);
+  const selectedItem = useAppSelector(selectedTimelineItemSelector);
   const items = useAppSelector(timelineAndPurchasesSelector);
   const selectedDateTime = useAppSelector(selectedDateTimeSelector);
   const dispatch = useAppDispatch();
@@ -40,9 +43,11 @@ export function Timeline() {
   return (
     <section>
       <h1>Timeline</h1>
-      <p>
-        {selectedItemId ? `Selected: ${selectedItemId}` : "Nothing selected"}
-      </p>
+      {selectedItem ? (
+        <TimelineItemSquareDetails {...selectedItem} />
+      ) : (
+        <p>Nothing selected</p>
+      )}
       <p>{selectedDateTime}</p>
       <button onClick={handleClickNextDate}>Next date &#62;</button>
       <ul className={styles.timelineList}>
@@ -52,7 +57,7 @@ export function Timeline() {
               onSelectSquare={handleSelectSquare}
               onDeselectSquare={handleDeselectSquare}
               itemId={item.id}
-              isSelected={selectedItemId === item.id}
+              isSelected={selectedItem?.id === item.id}
             />
           </li>
         ))}

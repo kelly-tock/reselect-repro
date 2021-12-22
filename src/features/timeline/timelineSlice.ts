@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { format, add } from 'date-fns';
-import { RootState } from '../../app/store';
+import { add, format } from 'date-fns';
 import faker from 'faker';
 import _ from 'lodash';
+import { RootState } from '../../app/store';
 import { DATETIMEFORMAT } from '../../lib/constants';
 
 export interface TimelineItem {
